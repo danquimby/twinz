@@ -25,18 +25,6 @@ public class Card : MonoBehaviour
         get { return _cardId; }
         private set { _cardId = value; }
     }
-    public CardState cardState
-    {
-        get
-        {
-            if (_cardTurnOver != null)
-            {
-                return _cardTurnOver.mCardState;
-            }
-            Debug.LogError("ошиибка инициализации ");
-            return CardState.None;
-        }
-    }
 
     public void Initialization()
     {
@@ -53,20 +41,20 @@ public class Card : MonoBehaviour
                 Resources.Load<Sprite>("cards/" + id.ToString());
         }        
     }
-
+    /// <summary>
+    /// Show front card
+    /// </summary>
     public void OpenCard()
     {
-        
-        Debug.Log("OpenCard() " );
         _cardTurnOver.StartFront();
     }
-
+    /// <summary>
+    /// Show back card
+    /// </summary>
     public void CloseCard()
     {
-        Debug.Log("OpenCard()");
         _cardTurnOver.StartBack();
     }
-
     void Update()
     {
         if (Input.GetMouseButtonDown(0) && _cardTurnOver.mCardState == CardState.Back)
@@ -76,8 +64,7 @@ public class Card : MonoBehaviour
             {
                 clickCard.Invoke(this);
             }
-        }else
-        if (Input.touchCount == 1 && _cardTurnOver.mCardState == CardState.Back)
+        } else if (Input.touchCount == 1 && _cardTurnOver.mCardState == CardState.Back)
         {
             Touch touch = Input.GetTouch(0);
             if (touch.phase == TouchPhase.Began)
@@ -86,17 +73,8 @@ public class Card : MonoBehaviour
                 Physics.Raycast(Camera.main.ScreenPointToRay(Input.GetTouch(0).position), out hit);
                 if(hit.collider != null && hit.collider.gameObject.name == gameObject.name)
                 {
-                    Debug.Log ("Target Position: " + hit.collider.gameObject.name);
+                    clickCard?.Invoke(this);
                 }
-                // TODO begin
-                Debug.Log("touch begin");
-                clickCard?.Invoke(this);
-            }
-
-            if (touch.phase == TouchPhase.Ended)
-            {
-                // TODO end
-                Debug.Log("touch end");
             }
         }    
     }

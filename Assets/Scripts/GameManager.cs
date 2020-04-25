@@ -3,20 +3,25 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Type window show
+/// </summary>
 public enum ShowWindowType
 {
     Menu,
     Game,
     None
 }
-
+/// <summary>
+/// Game Manager
+/// </summary>
 public class GameManager : MonoBehaviour
 {
     [SerializeField] private GameObject menuWindow;
     [SerializeField] private GameObject gameWindow;
     [SerializeField] private Text topScoreText;
     [SerializeField] private GameObject GameBoard;
-    private int topScore;
+    private int topScore; 
     public static GameManager instance = null;
     public ShowWindowType showWindowType { get; private set; } = ShowWindowType.None;
 
@@ -34,12 +39,17 @@ public class GameManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
         InitializeManager();
     }
-
+    /// <summary>
+    /// Event start new game
+    /// </summary>
     public void StartGame()
     {
         showWindow(ShowWindowType.Game);
     }
-
+    /// <summary>
+    /// Event game over
+    /// </summary>
+    /// <param name="current_score"> score for currently game</param>
     public void EndGame(int current_score)
     {
         if (current_score > topScore)
@@ -51,10 +61,16 @@ public class GameManager : MonoBehaviour
         PlayerPrefs.GetInt("topScore");
         showWindow(ShowWindowType.Menu);
     }
+    /// <summary>
+    /// Quit application
+    /// </summary>
     public void ExitGame()
     {
         Application.Quit();
     }
+    /// <summary>
+    /// First initialization of game manager 
+    /// </summary>
     private void InitializeManager()
     {
         if (PlayerPrefs.HasKey("topScore"))
@@ -69,9 +85,12 @@ public class GameManager : MonoBehaviour
         topScoreText.text = "Top Score: " + topScore;
         showWindow(ShowWindowType.Menu);
     }
+    /// <summary>
+    /// Switcher of windows
+    /// </summary>
+    /// <param name="type"></param>
     private void showWindow(ShowWindowType type)
     {
-        Debug.Log("showWindowType " + showWindowType);
         int newScore = -1;
         switch (showWindowType)
         {
@@ -94,7 +113,5 @@ public class GameManager : MonoBehaviour
                 break;
         }
         showWindowType = type;
-
     }
-    
 }

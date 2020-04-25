@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Resizing font for application
+/// </summary>
 public class MenuSizeFont : MonoBehaviour
 {
     [SerializeField] private GameObject[] textTop;
@@ -15,9 +18,4 @@ public class MenuSizeFont : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
