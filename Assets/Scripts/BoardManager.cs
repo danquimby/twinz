@@ -13,6 +13,7 @@ public class StateItem
         Open,
         Close,
         Hiden,
+        NewLevel,
         Show
     }
     //public Card card;
@@ -44,9 +45,7 @@ public class BoardManager : MonoBehaviour
         _openCards = new Card[2].ToList();
         _cards = new List<Card>();
         m_states = new Dictionary<float, StateItem>();
-        _stateGame = StateGame.ready;
         Initialization();
-        StartNewGame();
         
     }
 
@@ -67,32 +66,35 @@ public class BoardManager : MonoBehaviour
 
     IEnumerator TimeLeft()
     {
-        while (true)
+        while (_stateGame != StateGame.gameover)
         {
-            yield return new WaitForSeconds(1);
-            slider.value = slider.value - 1;
-            if ((int)slider.value == 0)
+            if (_stateGame == StateGame.play)
             {
-                BannerText.text = "GAME OVER";
-                yield break;
+                yield return new WaitForSeconds(1);
+                slider.value = slider.value - 1;
+                if ((int)slider.value == 0)
+                {
+                    BannerText.text = "GAME OVER";
+                    yield return new WaitForSeconds(2);
+                    _stateGame = StateGame.gameover;
+                    GameManager.instance.EndGame(Score);
+                }
             }
             yield return null;
         }
     }
     IEnumerator StateExecute()
     {
-        while (true)
+        while (_stateGame != StateGame.gameover)
         {
             if (m_states.Count > 0)
             {
                 foreach (KeyValuePair<float,StateItem> valuePair in m_states)
                 {
-                    Debug.Log("now " + Time.time + " execute " + valuePair.Key);
                     if (Time.time >= valuePair.Key)
                     {
                         ExecuteState(valuePair.Value);
                         m_states.Remove(valuePair.Key);
-                        //todo execute
                         break;
                     }
                 }
@@ -110,6 +112,7 @@ public class BoardManager : MonoBehaviour
             {
                 Card _card = card.GetComponent<Card>(); 
                 _card.clickCard += (ClickToCard);
+                _card.Initialization();                
                 _cards.Add(_card);
             }
         }
@@ -154,6 +157,9 @@ public class BoardManager : MonoBehaviour
     {
         switch (item.stateItemType)
         {
+            case StateItem.StateItemType.NewLevel:
+                StartNewLevel();
+                break;
             case StateItem.StateItemType.Hiden:
                 _openCards[0].Visible = false;
                 _openCards[1].Visible = false;
@@ -165,6 +171,7 @@ public class BoardManager : MonoBehaviour
                 if (FoundPair == 7)
                 {
                     BannerText.text = "WIN";
+                    AddState(3, StateItem.StateItemType.NewLevel);
                 }
                 break;
             case StateItem.StateItemType.Open:
@@ -184,9 +191,10 @@ public class BoardManager : MonoBehaviour
         ScoreField.text = "  Score:" + Score.ToString();
     }
 
-    private void StartNewGame()
+    public void StartNewGame()
     {
         Score = 0;
+        _stateGame = StateGame.ready;
         StartNewLevel();
     }
 
@@ -209,6 +217,7 @@ public class BoardManager : MonoBehaviour
         }
 
         int index = 0;
+        Debug.Log("_cards " + _cards.Count);
         foreach (Card _card in _cards)
         {
             _card.Visible = true;

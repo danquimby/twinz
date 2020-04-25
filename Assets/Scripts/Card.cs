@@ -1,11 +1,9 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class Card : MonoBehaviour
 {
+    [SerializeField] private GameObject cardGameObject;
     private Vector2 position;
     private CardTurnOver _cardTurnOver;
     public Action<Card> clickCard;
@@ -40,27 +38,20 @@ public class Card : MonoBehaviour
         }
     }
 
+    public void Initialization()
+    {
+        _cardTurnOver = GetComponent<CardTurnOver>();
+        _cardTurnOver.Init(CardState.Back);
+    }
     public void InitCardId(int id)
     {
         if (id > 0 && id <= 40)
         {
+            _cardTurnOver.Init(CardState.Back);
             CardId = id;
-            try
-            {
-                _cardTurnOver.mFront.transform.GetChild(0).gameObject.GetComponent<SpriteRenderer>().sprite =
-                    Resources.Load<Sprite>("cards/" + id.ToString());
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e);
-
-            }
+            cardGameObject.GetComponent<SpriteRenderer>().sprite =
+                Resources.Load<Sprite>("cards/" + id.ToString());
         }        
-    }
-    void Start()
-    {
-        _cardTurnOver = GetComponent<CardTurnOver>();
-        _cardTurnOver.Init(CardState.Back);
     }
 
     public void OpenCard()

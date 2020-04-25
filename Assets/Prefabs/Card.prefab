@@ -63,6 +63,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a8b1dc1bd96ea1f478e5d206e62bb4b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cardGameObject: {fileID: 3566033456211810516}
 --- !u!61 &1999812520672041423
 BoxCollider2D:
   m_ObjectHideFlags: 0
