@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,6 +11,7 @@ public enum ShowWindowType
 {
     Menu,
     Game,
+    ChoiceLevel,
     None
 }
 /// <summary>
@@ -17,13 +19,25 @@ public enum ShowWindowType
 /// </summary>
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] private GameObject choiceLevelWindow;
     [SerializeField] private GameObject menuWindow;
     [SerializeField] private GameObject gameWindow;
     [SerializeField] private Text topScoreText;
     [SerializeField] private GameObject GameBoard;
-    private int topScore; 
+    private int topScore;
+    private CardPackManager _cardPackManager;
     public static GameManager instance = null;
     public ShowWindowType showWindowType { get; private set; } = ShowWindowType.None;
+
+    public CardPackManager cardPackManager
+    {
+        get
+        {
+            if (_cardPackManager == null)
+                _cardPackManager = GetComponent<CardPackManager>();
+            return _cardPackManager;
+        }
+    }
 
     void Start()
     {
@@ -44,21 +58,18 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
-        showWindow(ShowWindowType.Game);
+        showWindow(ShowWindowType.ChoiceLevel);
     }
     /// <summary>
     /// Event game over
     /// </summary>
     /// <param name="current_score"> score for currently game</param>
-    public void EndGame(int current_score)
+    public void EndGame(LevelModel model, int current_score)
     {
-        if (current_score > topScore)
-        {
-            topScore = current_score;
-            PlayerPrefs.SetInt("topScore", topScore);
-        }
-        topScoreText.text = "Top Score: " + topScore;
-        PlayerPrefs.GetInt("topScore");
+        Debug.Log("model.TopScore " + model.GetTopPerLevel());
+        Debug.Log("current_score " + current_score);
+        if (current_score > model.GetTopPerLevel())
+            model.SaveTopPerLevel(current_score);
         showWindow(ShowWindowType.Menu);
     }
     /// <summary>
@@ -68,21 +79,17 @@ public class GameManager : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void SelectLevel(LevelModel level)
+    {
+        GameBoard.GetComponent<BoardManager>().currentLevel = level;
+        showWindow(ShowWindowType.Game);
+    }
     /// <summary>
     /// First initialization of game manager 
     /// </summary>
     private void InitializeManager()
     {
-        if (PlayerPrefs.HasKey("topScore"))
-        {
-            topScore = PlayerPrefs.GetInt("topScore");
-        }
-        else
-        {
-            topScore = 1;
-            PlayerPrefs.SetInt("topScore", topScore);
-        }
-        topScoreText.text = "Top Score: " + topScore;
         showWindow(ShowWindowType.Menu);
     }
     /// <summary>
@@ -96,14 +103,19 @@ public class GameManager : MonoBehaviour
         {
             case ShowWindowType.Game:
                 gameWindow.SetActive(false);
-                newScore = GameBoard.GetComponent<BoardManager>().Score;
                 break;
             case ShowWindowType.Menu:
                 menuWindow.SetActive(false);
                 break;
+            case ShowWindowType.ChoiceLevel:
+                choiceLevelWindow.SetActive(false);
+                break;
         }
         switch (type)
         {
+            case ShowWindowType.ChoiceLevel:
+                choiceLevelWindow.SetActive(true);
+                break;
             case ShowWindowType.Game:
                 gameWindow.SetActive(true);
                 GameBoard.GetComponent<BoardManager>().StartNewGame();

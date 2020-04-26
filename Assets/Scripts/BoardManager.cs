@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 using Random = UnityEngine.Random;
@@ -25,6 +26,7 @@ public class BoardManager : MonoBehaviour
     {
         ready,
         play,
+        level_finished,
         gameover
     }
     [SerializeField] private Text BannerText;
@@ -39,6 +41,12 @@ public class BoardManager : MonoBehaviour
     private StateGame _stateGame;
     private Dictionary<float, StateItem> m_states;
     private int FoundPair; // сколько пар найдено 14
+    private bool IsTimeLeftWorking = false; 
+    private bool IsExecuterWorking = false;
+    private int previousLevelTimeLeft;
+    private int currentDecreaseTimeLeft = 0;
+    public LevelModel currentLevel;
+    
     public int Score { get; private set; }
     void Start()
     {
@@ -55,36 +63,59 @@ public class BoardManager : MonoBehaviour
         showBanner = 0;
         while (lettersOfBegin.Length > showBanner )
         {
+            if (lettersOfBegin.Length - 1 == showBanner)
+            {
+                foreach (Card card in _cards)
+                {
+                    card.CloseCard();
+                }
+            }
             BannerText.text = lettersOfBegin[showBanner++];
             yield return new WaitForSeconds(1);
         }
         BannerText.text = string.Empty;
         _stateGame = StateGame.play;
+        if (!IsExecuterWorking)
         StartCoroutine(StateExecute());
+        if (!IsTimeLeftWorking)
         StartCoroutine(TimeLeft());
     }
 
     IEnumerator TimeLeft()
     {
+        IsTimeLeftWorking = true;
         while (_stateGame != StateGame.gameover)
         {
             if (_stateGame == StateGame.play)
             {
                 yield return new WaitForSeconds(1);
-                slider.value = slider.value - 1;
+                slider.value--;
                 if ((int)slider.value == 0)
                 {
                     BannerText.text = "GAME OVER";
                     yield return new WaitForSeconds(2);
                     _stateGame = StateGame.gameover;
-                    GameManager.instance.EndGame(Score);
+                    GameManager.instance.EndGame(currentLevel, Score);
                 }
+            } else if (_stateGame == StateGame.level_finished)
+            { // calculation score
+                BannerText.text = "You Win";
+                slider.value--;
+                Score++;
+                UpdateScore();
+                if ((int) slider.value == 0)
+                {
+                    _stateGame = StateGame.ready;
+                    AddState(3, StateItem.StateItemType.NewLevel);
+                }                
             }
             yield return null;
         }
+        IsTimeLeftWorking = false;
     }
     IEnumerator StateExecute()
     {
+        IsExecuterWorking = true;
         while (_stateGame != StateGame.gameover)
         {
             if (m_states.Count > 0)
@@ -101,6 +132,7 @@ public class BoardManager : MonoBehaviour
             }
             yield return null;
         }
+        IsExecuterWorking = false;
     }
     #endregion
     public void Initialization()
@@ -116,12 +148,6 @@ public class BoardManager : MonoBehaviour
                 _cards.Add(_card);
             }
         }
-    }
-
-    public Card CreateCard(Vector2 position)
-    {
-        GameObject obj = Instantiate(cardPrefabs, position, Quaternion.identity);
-        return obj.GetComponent<Card>();
     }
 
     private void ClickToCard(Card card)
@@ -140,7 +166,6 @@ public class BoardManager : MonoBehaviour
             else
                 AddState(1.0f, StateItem.StateItemType.Hiden);
         }
-        Debug.Log("event OpenCard()");
         card.OpenCard();
         
     }
@@ -166,12 +191,12 @@ public class BoardManager : MonoBehaviour
                 _openCards[0] = null;
                 _openCards[1] = null;
                 FoundPair++;
-                Score += 1;
+                Score += Random.Range(1,4); // randomize prize
                 UpdateScore();
                 if (FoundPair == 7)
                 {
-                    BannerText.text = "WIN";
-                    AddState(3, StateItem.StateItemType.NewLevel);
+                    previousLevelTimeLeft = (int)slider.value;
+                    _stateGame = StateGame.level_finished;
                 }
                 break;
             case StateItem.StateItemType.Open:
@@ -190,42 +215,48 @@ public class BoardManager : MonoBehaviour
     {
         ScoreField.text = "  Score:" + Score.ToString();
     }
-
+    
     public void StartNewGame()
     {
+        slider.maxValue = currentLevel.timeLeft;
         Score = 0;
+        currentDecreaseTimeLeft = -1;
+        previousLevelTimeLeft = -1;
         _stateGame = StateGame.ready;
+        GameManager.instance.cardPackManager.InitNewSet();
         StartNewLevel();
     }
 
     private void StartNewLevel()
     {
-        slider.value = 100;
-        FoundPair = 0;
-        int[] ids = new int[_cards.Count];
-        for (int i = 0; i < ids.Length; i++)
+        if (currentLevel.gameRulesType == GameRulesType.SimleTime)
         {
-            int id = Random.Range(1, 40);
-            ids[i] = id;
-            ids[++i] = id;
+            currentDecreaseTimeLeft += currentLevel.decreaseTimeLeft;
+            slider.value = currentDecreaseTimeLeft > currentLevel.minimumTimeLeft ? 
+                currentLevel.minimumTimeLeft : currentLevel.timeLeft - currentDecreaseTimeLeft;
         }
-        for (int i = 0; i < ids.Length; i++) {
-            int temp = ids[i];
-            int randomIndex = Random.Range(i, ids.Length);
-            ids[i] = ids[randomIndex];
-            ids[randomIndex] = temp;
+        else
+        {
+            if (previousLevelTimeLeft > 0)
+                slider.value = previousLevelTimeLeft < currentLevel.minimumTimeLeft
+                    ? currentLevel.minimumTimeLeft
+                    : previousLevelTimeLeft + currentLevel.addTimeLeft;
+            else
+                slider.value = currentLevel.timeLeft;
+            Debug.Log("slider.value " + slider.value);
+
         }
 
+        
+        FoundPair = 0;
+        int[] ids = GameManager.instance.cardPackManager.GetSet();
         int index = 0;
-        Debug.Log("_cards " + _cards.Count);
         foreach (Card _card in _cards)
         {
             _card.Visible = true;
             _card.InitCardId(ids[index++]);
         }
-        
         StartCoroutine(StartGame());
-        UpdateScore();
     }
 }
 public static class ClassExtension

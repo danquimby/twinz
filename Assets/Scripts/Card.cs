@@ -29,13 +29,13 @@ public class Card : MonoBehaviour
     public void Initialization()
     {
         _cardTurnOver = GetComponent<CardTurnOver>();
-        _cardTurnOver.Init(CardState.Back);
+        _cardTurnOver.Init(CardState.Front);
     }
     public void InitCardId(int id)
     {
         if (id > 0 && id <= 40)
         {
-            _cardTurnOver.Init(CardState.Back);
+            _cardTurnOver.Init(CardState.Front);
             CardId = id;
             cardGameObject.GetComponent<SpriteRenderer>().sprite =
                 Resources.Load<Sprite>("cards/" + id.ToString());
