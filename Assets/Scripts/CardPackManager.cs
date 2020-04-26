@@ -31,7 +31,6 @@ public class CardPackManager : MonoBehaviour
                 CardSet[i, j] = ids[count++];
             }
         }
-        Debug.Log("CardSet " + CardSet);
     }
 
     public int[] GetSet()
