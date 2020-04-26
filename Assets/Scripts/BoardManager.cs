@@ -55,6 +55,13 @@ public class BoardManager : MonoBehaviour
         showBanner = 0;
         while (lettersOfBegin.Length > showBanner )
         {
+            if (lettersOfBegin.Length - 1 == showBanner)
+            {
+                foreach (Card card in _cards)
+                {
+                    card.CloseCard();
+                }
+            }
             BannerText.text = lettersOfBegin[showBanner++];
             yield return new WaitForSeconds(1);
         }
@@ -195,6 +202,7 @@ public class BoardManager : MonoBehaviour
     {
         Score = 0;
         _stateGame = StateGame.ready;
+        GameManager.instance.cardPackManager.InitNewSet();
         StartNewLevel();
     }
 
@@ -202,22 +210,9 @@ public class BoardManager : MonoBehaviour
     {
         slider.value = 100;
         FoundPair = 0;
-        int[] ids = new int[_cards.Count];
-        for (int i = 0; i < ids.Length; i++)
-        {
-            int id = Random.Range(1, 40);
-            ids[i] = id;
-            ids[++i] = id;
-        }
-        for (int i = 0; i < ids.Length; i++) {
-            int temp = ids[i];
-            int randomIndex = Random.Range(i, ids.Length);
-            ids[i] = ids[randomIndex];
-            ids[randomIndex] = temp;
-        }
 
+        int[] ids = GameManager.instance.cardPackManager.GetSet();
         int index = 0;
-        Debug.Log("_cards " + _cards.Count);
         foreach (Card _card in _cards)
         {
             _card.Visible = true;

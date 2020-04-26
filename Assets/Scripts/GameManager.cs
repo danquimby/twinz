@@ -21,9 +21,20 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameWindow;
     [SerializeField] private Text topScoreText;
     [SerializeField] private GameObject GameBoard;
-    private int topScore; 
+    private int topScore;
+    private CardPackManager _cardPackManager;
     public static GameManager instance = null;
     public ShowWindowType showWindowType { get; private set; } = ShowWindowType.None;
+
+    public CardPackManager cardPackManager
+    {
+        get
+        {
+            if (_cardPackManager == null)
+                _cardPackManager = GetComponent<CardPackManager>();
+            return _cardPackManager;
+        }
+    }
 
     void Start()
     {
