@@ -66,8 +66,6 @@ public class GameManager : MonoBehaviour
     /// <param name="current_score"> score for currently game</param>
     public void EndGame(LevelModel model, int current_score)
     {
-        Debug.Log("model.TopScore " + model.GetTopPerLevel());
-        Debug.Log("current_score " + current_score);
         if (current_score > model.GetTopPerLevel())
             model.SaveTopPerLevel(current_score);
         showWindow(ShowWindowType.Menu);

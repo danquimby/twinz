@@ -166,7 +166,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20b0275e7eb76574eacbd46c003832eb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  choiceLevelWindow: {fileID: 0}
+  choiceLevelWindow: {fileID: 1387811610}
   menuWindow: {fileID: 566635981}
   gameWindow: {fileID: 2098616506}
   topScoreText: {fileID: 1547692003}
@@ -878,6 +878,9 @@ MonoBehaviour:
     timeLeft: 70
     gameRulesType: 1
     TopScore: 0
+    decreaseTimeLeft: 0
+    minimumTimeLeft: 20
+    addTimeLeft: 15
 --- !u!114 &338360971
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1252,6 +1255,9 @@ MonoBehaviour:
     timeLeft: 100
     gameRulesType: 1
     TopScore: 0
+    decreaseTimeLeft: 0
+    minimumTimeLeft: 20
+    addTimeLeft: 20
 --- !u!114 &441165816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1476,6 +1482,9 @@ MonoBehaviour:
     timeLeft: 50
     gameRulesType: 1
     TopScore: 0
+    decreaseTimeLeft: 0
+    minimumTimeLeft: 10
+    addTimeLeft: 10
 --- !u!114 &456345079
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2548,6 +2557,9 @@ MonoBehaviour:
     timeLeft: 0
     gameRulesType: 0
     TopScore: 0
+    decreaseTimeLeft: 0
+    minimumTimeLeft: 0
+    addTimeLeft: 0
 --- !u!4 &1051277120
 Transform:
   m_ObjectHideFlags: 0
@@ -3012,7 +3024,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1387811611
 Transform:
   m_ObjectHideFlags: 0
@@ -3800,6 +3812,9 @@ MonoBehaviour:
     timeLeft: 100
     gameRulesType: 0
     TopScore: 0
+    decreaseTimeLeft: 5
+    minimumTimeLeft: 45
+    addTimeLeft: 0
 --- !u!114 &1624409638
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4111,6 +4126,9 @@ MonoBehaviour:
     timeLeft: 80
     gameRulesType: 0
     TopScore: 0
+    decreaseTimeLeft: 7
+    minimumTimeLeft: 40
+    addTimeLeft: 0
 --- !u!114 &1747222621
 MonoBehaviour:
   m_ObjectHideFlags: 0
