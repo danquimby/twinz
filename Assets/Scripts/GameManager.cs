@@ -22,7 +22,6 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject choiceLevelWindow;
     [SerializeField] private GameObject menuWindow;
     [SerializeField] private GameObject gameWindow;
-    [SerializeField] private Text topScoreText;
     [SerializeField] private GameObject GameBoard;
     private int topScore;
     private CardPackManager _cardPackManager;
