@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
-using Random = UnityEngine.Random;
 
 public class StateItem
 {
@@ -243,8 +241,6 @@ public class BoardManager : MonoBehaviour
                     : previousLevelTimeLeft + currentLevel.addTimeLeft;
             else
                 slider.value = currentLevel.timeLeft;
-            Debug.Log("slider.value " + slider.value);
-
         }
 
         

@@ -4,7 +4,6 @@ using Assets.Scripts;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public enum GameRulesType
 {
     SimleTime,

@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+
 
 [System.Serializable]
 class MenuSizeFontItem
@@ -27,20 +27,19 @@ public class MenuSizeFont : MonoBehaviour
             {
                 foreach (GameObject o in objects)
                 {
-                    
-                    Text _text = o.GetComponent<Text>();
-                    if (_text != null)
+                    Text text = o.GetComponent<Text>();
+                    if (text != null)
                     {
-                        _text.fontSize = (int) (Screen.width / item.coefficient);
+                        text.fontSize = (int) (Screen.width / item.coefficient);
                     }
                 }
             }
             else
             {
-                Text _text = item.gameObject.GetComponent<Text>();
-                if (_text != null)
+                Text text = item.gameObject.GetComponent<Text>();
+                if (text != null)
                 {
-                    _text.fontSize = (int) (Screen.width / item.coefficient);
+                    text.fontSize = (int) (Screen.width / item.coefficient);
                 }
             }
         }
