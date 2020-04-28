@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject choiceLevelWindow;
     [SerializeField] private GameObject menuWindow;
     [SerializeField] private GameObject gameWindow;
+    [SerializeField] private GameObject gameUiWindow;
     [SerializeField] private GameObject GameBoard;
     private int topScore;
     private CardPackManager _cardPackManager;
@@ -97,6 +98,7 @@ public class GameManager : MonoBehaviour
         {
             case ShowWindowType.Game:
                 gameWindow.SetActive(false);
+                gameUiWindow.SetActive(false);
                 break;
             case ShowWindowType.Menu:
                 menuWindow.SetActive(false);
@@ -112,6 +114,7 @@ public class GameManager : MonoBehaviour
                 break;
             case ShowWindowType.Game:
                 gameWindow.SetActive(true);
+                gameUiWindow.SetActive(true);
                 GameBoard.GetComponent<BoardManager>().StartNewGame();
                 break;
             case ShowWindowType.Menu:
