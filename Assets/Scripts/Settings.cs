@@ -8,7 +8,12 @@ public class Settings : MonoBehaviour
 {
     [SerializeField] private Slider music;
     [SerializeField] private Slider sounds;
+    [SerializeField] private Button backToMenu;
 
+    void OnEnable()
+    {
+        backToMenu.gameObject.SetActive(GameManager.instance.isGame);
+    }
     public void StartValueMusic()
     {
         float value = PlayerPrefs.GetFloat("MasterMusicValue", 1);

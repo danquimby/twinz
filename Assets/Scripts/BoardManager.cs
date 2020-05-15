@@ -225,13 +225,6 @@ public class BoardManager : MonoBehaviour
         GameManager.instance.cardPackManager.InitNewSet();
         StartNewLevel();
     }
-    public void CloseSettings()
-    {
-    }
-
-    public void OpenSettings()
-    {
-    }
     private void StartNewLevel()
     {
         if (currentLevel.gameRulesType == GameRulesType.SimleTime)

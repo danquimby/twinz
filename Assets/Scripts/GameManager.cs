@@ -24,7 +24,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameUiWindow;
     [SerializeField] private BoardManager GameBoard;
     public MusicManager MusicManager;
-    private bool isGame = false;
+    public bool isGame { private set; get; } = false;
     private int topScore;
     private CardPackManager _cardPackManager;
     public static GameManager instance = null;
@@ -62,6 +62,11 @@ public class GameManager : MonoBehaviour
         isGame = true;
         showWindow(ShowWindowType.ChoiceLevel);
     }
+
+    public void BackToMenu()
+    {
+        EndGame(null, 0);
+    }
     /// <summary>
     /// Event game over
     /// </summary>
@@ -69,8 +74,12 @@ public class GameManager : MonoBehaviour
     public void EndGame(LevelModel model, int current_score)
     {
         isGame = false;
-        if (current_score > model.GetTopPerLevel())
-            model.SaveTopPerLevel(current_score);
+        MusicManager.TransitionToMenu();
+        if (model != null)
+        {
+            if (current_score > model.GetTopPerLevel())
+                model.SaveTopPerLevel(current_score);
+        }
         showWindow(ShowWindowType.Menu);
     }
     /// <summary>
@@ -89,7 +98,17 @@ public class GameManager : MonoBehaviour
 
     public void CloseSettings()
     {
-        showWindow(ShowWindowType.Menu);
+        if (isGame)
+        {
+            showWindowType = ShowWindowType.Settings;
+            gameWindow.SetActive(true);
+            gameUiWindow.SetActive(true);
+            settingsUiWindow.SetActive(false);
+        }
+        else
+        {
+            showWindow(ShowWindowType.Menu);
+        }
     }
 
     public void OpenSettings()
@@ -145,6 +164,8 @@ public class GameManager : MonoBehaviour
                 break;
             case ShowWindowType.Settings:
                 settingsUiWindow.SetActive(true);
+                gameUiWindow.SetActive(false);
+                gameWindow.SetActive(false);
                 break;
 
         }
