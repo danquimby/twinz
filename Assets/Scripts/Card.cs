@@ -26,7 +26,7 @@ public class Card : MonoBehaviour
         get { return _cardId; }
         private set { _cardId = value; }
     }
-
+    
     public void Initialization()
     {
         _cardTurnOver = GetComponent<CardTurnOver>();
@@ -57,6 +57,14 @@ public class Card : MonoBehaviour
     {
         GameManager.instance.MusicManager.OpenCard(0.15f);
         _cardTurnOver.StartBack();
+    }
+
+    public void HideCard()
+    {
+        _cardTurnOver.HideCard(() =>
+        {
+            gameObject.SetActive(false);
+        });
     }
     void Update()
     {

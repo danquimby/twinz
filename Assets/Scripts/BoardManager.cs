@@ -33,6 +33,8 @@ public class BoardManager : MonoBehaviour
     [SerializeField] private Slider slider;
     [SerializeField] private GameObject FolderCards;
     [SerializeField] private GameObject cardPrefabs;
+    [SerializeField] private GameObject GameOverPanel;
+    [SerializeField] private GameObject YouWinPanel;
     private string[] lettersOfBegin = new string[5]{"Ready","3","2","1", "Go"};
     private int showBanner = 0; // для старта
     private List<Card> _cards;
@@ -91,14 +93,15 @@ public class BoardManager : MonoBehaviour
                 slider.value--;
                 if ((int)slider.value == 0)
                 {
-                    BannerText.text = "GAME OVER";
+                    GameOverPanel.SetActive(true);
                     yield return new WaitForSeconds(2);
                     _stateGame = StateGame.gameover;
                     GameManager.instance.EndGame(currentLevel, Score);
+                    GameOverPanel.SetActive(false);
                 }
             } else if (_stateGame == StateGame.level_finished)
             { // calculation score
-                BannerText.text = "You Win";
+                YouWinPanel.SetActive(true);
                 slider.value--;
                 Score++;
                 UpdateScore();
@@ -185,8 +188,8 @@ public class BoardManager : MonoBehaviour
                 StartNewLevel();
                 break;
             case StateItem.StateItemType.Hiden:
-                _openCards[0].Visible = false;
-                _openCards[1].Visible = false;
+                _openCards[0].HideCard();
+                _openCards[1].HideCard();
                 _openCards[0] = null;
                 _openCards[1] = null;
                 FoundPair++;
@@ -222,12 +225,15 @@ public class BoardManager : MonoBehaviour
         currentDecreaseTimeLeft = 0;
         previousLevelTimeLeft = 0;
         _stateGame = StateGame.ready;
+        GameOverPanel.SetActive(false);
+        YouWinPanel.SetActive(false);
         UpdateScore();
         GameManager.instance.cardPackManager.InitNewSet();
         StartNewLevel();
     }
     private void StartNewLevel()
     {
+        YouWinPanel.SetActive(false);
         if (currentLevel.gameRulesType == GameRulesType.SimpleTime)
         {
             currentDecreaseTimeLeft += currentLevel.decreaseTimeLeft;
@@ -249,8 +255,6 @@ public class BoardManager : MonoBehaviour
             Debug.Log("slider.value " + slider.value);
             previousLevelTimeLeft = 0;
         }
-        Debug.Log("slider.value " + slider.value + " currentLevel.gameRulesType " + currentLevel.gameRulesType);
-        
         FoundPair = 0;
         int[] ids = GameManager.instance.cardPackManager.GetSet();
         int index = 0;

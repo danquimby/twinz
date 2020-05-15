@@ -23,6 +23,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject settingsUiWindow;
     [SerializeField] private GameObject gameUiWindow;
     [SerializeField] private BoardManager GameBoard;
+    [SerializeField] private ParticleSystem _particleSystem;
     public MusicManager MusicManager;
     public bool isGame { private set; get; } = false;
     private int topScore;
@@ -141,6 +142,8 @@ public class GameManager : MonoBehaviour
                 break;
             case ShowWindowType.Menu:
                 menuWindow.SetActive(false);
+                _particleSystem.Stop();
+                _particleSystem.gameObject.SetActive(false);
                 break;
             case ShowWindowType.ChoiceLevel:
                 choiceLevelWindow.SetActive(false);
@@ -161,6 +164,8 @@ public class GameManager : MonoBehaviour
                 MusicManager.TransitionToGame();
                 break;
             case ShowWindowType.Menu:
+                _particleSystem.gameObject.SetActive(true);
+                _particleSystem.Play();
                 MusicManager.TransitionToMenu();
                 menuWindow.SetActive(true);
                 break;

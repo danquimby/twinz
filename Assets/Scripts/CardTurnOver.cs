@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
 using DG.Tweening;
 
@@ -54,6 +55,12 @@ public class CardTurnOver : MonoBehaviour{
             return;
         StartCoroutine(ToFront());
     }
+    public void HideCard(Action finish)
+    {
+        if (isActive)
+            return;
+        StartCoroutine(ToHide(finish));
+    }
     /// <summary>
     /// flip to the back
     /// </summary>
@@ -83,5 +90,16 @@ public class CardTurnOver : MonoBehaviour{
         isActive = false;
         mCardState = CardState.Front;
     }
+    IEnumerator ToHide(Action finish)
+    {
+        isActive = true;
+        mCardState = CardState.Moved;
+        mFront.transform.DORotate(new Vector3(0, 90, 0), mTime/2);
+        for (float i = mTime; i >= 0; i -= Time.deltaTime)
+            yield return 0;
+        isActive = false;
+        finish?.Invoke();
+    }
+    
 }
 
