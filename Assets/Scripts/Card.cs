@@ -68,6 +68,7 @@ public class Card : MonoBehaviour
     }
     void Update()
     {
+        if (GameManager.instance.GameBoard.IsGameOver) return;
         if (Input.GetMouseButtonDown(0) && _cardTurnOver.mCardState == CardState.Back)
         {
             RaycastHit2D hit = Physics2D.Raycast(Camera.main.ScreenToWorldPoint(Input.mousePosition), Vector2.zero);

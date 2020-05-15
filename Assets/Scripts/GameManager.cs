@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject gameWindow;
     [SerializeField] private GameObject settingsUiWindow;
     [SerializeField] private GameObject gameUiWindow;
-    [SerializeField] private BoardManager GameBoard;
+    public BoardManager GameBoard;
     [SerializeField] private ParticleSystem _particleSystem;
     public MusicManager MusicManager;
     public bool isGame { private set; get; } = false;
@@ -101,6 +101,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGame)
         {
+            GameBoard.isPause = false;
             showWindowType = ShowWindowType.Game;
             gameWindow.SetActive(true);
             gameUiWindow.SetActive(true);
@@ -168,6 +169,7 @@ public class GameManager : MonoBehaviour
                 menuWindow.SetActive(true);
                 break;
             case ShowWindowType.Settings:
+                GameBoard.isPause = true;
                 settingsUiWindow.SetActive(true);
                 gameUiWindow.SetActive(false);
                 gameWindow.SetActive(false);

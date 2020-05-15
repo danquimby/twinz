@@ -46,8 +46,12 @@ public class BoardManager : MonoBehaviour
     private bool IsExecuterWorking = false;
     private int previousLevelTimeLeft;
     private int currentDecreaseTimeLeft = 0;
+    public bool isPause = false;
     public LevelModel currentLevel;
-    
+    public bool IsGameOver
+    {
+        get { return _stateGame == StateGame.gameover; }
+    }
     public int Score { get; private set; }
     void Start()
     {
@@ -87,15 +91,15 @@ public class BoardManager : MonoBehaviour
         IsTimeLeftWorking = true;
         while (_stateGame != StateGame.gameover)
         {
-            if (_stateGame == StateGame.play)
+            if (_stateGame == StateGame.play && !isPause)
             {
                 yield return new WaitForSeconds(1);
                 slider.value--;
                 if ((int)slider.value == 0)
                 {
+                    _stateGame = StateGame.gameover;
                     GameOverPanel.SetActive(true);
                     yield return new WaitForSeconds(2);
-                    _stateGame = StateGame.gameover;
                     GameManager.instance.EndGame(currentLevel, Score);
                     GameOverPanel.SetActive(false);
                 }
