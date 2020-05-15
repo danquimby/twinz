@@ -6,7 +6,7 @@ using UnityEngine.UI;
 
 public enum GameRulesType
 {
-    SimleTime,
+    SimpleTime,
     AddedTimeLeft
 }
 public class LevelCard : MonoBehaviour

@@ -13,7 +13,6 @@ public class MusicManager : MonoBehaviour
 
     public void TransitionToMenu()
     {
-        Debug.Log("ww");
         InMenu.TransitionTo(0.5f);
     }
 

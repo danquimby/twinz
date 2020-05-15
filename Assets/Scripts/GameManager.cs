@@ -92,6 +92,8 @@ public class GameManager : MonoBehaviour
 
     public void SelectLevel(LevelModel level)
     {
+        Debug.Log(" currentLevel.gameRulesType " + level.gameRulesType);
+        
         GameBoard.currentLevel = level;
         showWindow(ShowWindowType.Game);
     }
@@ -100,7 +102,7 @@ public class GameManager : MonoBehaviour
     {
         if (isGame)
         {
-            showWindowType = ShowWindowType.Settings;
+            showWindowType = ShowWindowType.Game;
             gameWindow.SetActive(true);
             gameUiWindow.SetActive(true);
             settingsUiWindow.SetActive(false);

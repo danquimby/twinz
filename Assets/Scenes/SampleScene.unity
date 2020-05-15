@@ -2262,7 +2262,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 803751784}
+      - m_Target: {fileID: 458229175}
         m_MethodName: ClickToCard
         m_Mode: 1
         m_Arguments:
@@ -2287,7 +2287,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1520161890}
   model:
-    tag: 
+    tag: Level4
     timeLeft: 100
     gameRulesType: 1
     TopScore: 0
@@ -4543,8 +4543,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 119702262}
   model:
-    tag: 
-    timeLeft: 100
+    tag: Level1
+    timeLeft: 20
     gameRulesType: 0
     TopScore: 0
     decreaseTimeLeft: 0
@@ -5466,7 +5466,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 803751784}
+      - m_Target: {fileID: 963793493}
         m_MethodName: ClickToCard
         m_Mode: 1
         m_Arguments:
@@ -5491,7 +5491,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 1818017794}
   model:
-    tag: 
+    tag: Level2
     timeLeft: 80
     gameRulesType: 0
     TopScore: 0
@@ -6479,7 +6479,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!61 &1130138766
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -7749,7 +7749,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10306, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -8838,6 +8838,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Card (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 3566033455782495341, guid: 44ed629ccbadecd48bb1b056aebf9788,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3566033455975289544, guid: 44ed629ccbadecd48bb1b056aebf9788,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -9240,7 +9245,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 803751784}
+      - m_Target: {fileID: 1613789773}
         m_MethodName: ClickToCard
         m_Mode: 1
         m_Arguments:
@@ -9265,7 +9270,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 2015426606}
   model:
-    tag: 
+    tag: Level3
     timeLeft: 60
     gameRulesType: 0
     TopScore: 0
@@ -11640,7 +11645,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 803751784}
+      - m_Target: {fileID: 2107777337}
         m_MethodName: ClickToCard
         m_Mode: 1
         m_Arguments:
@@ -11665,7 +11670,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ScoreText: {fileID: 290243639}
   model:
-    tag: 
+    tag: Level5
     timeLeft: 80
     gameRulesType: 1
     TopScore: 0

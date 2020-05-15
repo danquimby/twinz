@@ -219,30 +219,37 @@ public class BoardManager : MonoBehaviour
     {
         slider.maxValue = currentLevel.timeLeft;
         Score = 0;
-        currentDecreaseTimeLeft = -1;
-        previousLevelTimeLeft = -1;
+        currentDecreaseTimeLeft = 0;
+        previousLevelTimeLeft = 0;
         _stateGame = StateGame.ready;
+        UpdateScore();
         GameManager.instance.cardPackManager.InitNewSet();
         StartNewLevel();
     }
     private void StartNewLevel()
     {
-        if (currentLevel.gameRulesType == GameRulesType.SimleTime)
+        if (currentLevel.gameRulesType == GameRulesType.SimpleTime)
         {
             currentDecreaseTimeLeft += currentLevel.decreaseTimeLeft;
             slider.value = currentDecreaseTimeLeft > currentLevel.minimumTimeLeft ? 
                 currentLevel.minimumTimeLeft : currentLevel.timeLeft - currentDecreaseTimeLeft;
         }
-        else
+        else if (currentLevel.gameRulesType == GameRulesType.AddedTimeLeft)
         {
             if (previousLevelTimeLeft > 0)
+            {
                 slider.value = previousLevelTimeLeft < currentLevel.minimumTimeLeft
                     ? currentLevel.minimumTimeLeft
                     : previousLevelTimeLeft + currentLevel.addTimeLeft;
-            else
+            } else
                 slider.value = currentLevel.timeLeft;
+            
+            if (slider.value > currentLevel.timeLeft)
+                slider.value = currentLevel.timeLeft;
+            Debug.Log("slider.value " + slider.value);
+            previousLevelTimeLeft = 0;
         }
-
+        Debug.Log("slider.value " + slider.value + " currentLevel.gameRulesType " + currentLevel.gameRulesType);
         
         FoundPair = 0;
         int[] ids = GameManager.instance.cardPackManager.GetSet();
