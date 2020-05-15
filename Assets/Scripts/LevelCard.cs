@@ -13,6 +13,7 @@ public class LevelCard : MonoBehaviour
 {
     [SerializeField] private GameObject ScoreText;
     [SerializeField] private LevelModel model;
+    [SerializeField] private AudioSource _audioSelect;
     public Action<LevelCard> clickCard;
 
     void Start()
@@ -33,6 +34,7 @@ public class LevelCard : MonoBehaviour
     }
     public void ClickToCard()
     {
+        _audioSelect.Play();
         GameManager.instance.SelectLevel(model);
     }
 }

@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Card : MonoBehaviour
 {
+
     [SerializeField] private GameObject cardGameObject;
     private Vector2 position;
     private CardTurnOver _cardTurnOver;
@@ -46,6 +47,7 @@ public class Card : MonoBehaviour
     /// </summary>
     public void OpenCard()
     {
+        GameManager.instance.MusicManager.OpenCard(0.15f);
         _cardTurnOver.StartFront();
     }
     /// <summary>
@@ -53,6 +55,7 @@ public class Card : MonoBehaviour
     /// </summary>
     public void CloseCard()
     {
+        GameManager.instance.MusicManager.OpenCard(0.15f);
         _cardTurnOver.StartBack();
     }
     void Update()

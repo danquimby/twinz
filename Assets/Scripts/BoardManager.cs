@@ -27,6 +27,7 @@ public class BoardManager : MonoBehaviour
         level_finished,
         gameover
     }
+    [SerializeField] private GameObject settingsUiWindow;
     [SerializeField] private Text BannerText;
     [SerializeField] private Text ScoreField;
     [SerializeField] private Slider slider;
@@ -224,7 +225,13 @@ public class BoardManager : MonoBehaviour
         GameManager.instance.cardPackManager.InitNewSet();
         StartNewLevel();
     }
+    public void CloseSettings()
+    {
+    }
 
+    public void OpenSettings()
+    {
+    }
     private void StartNewLevel()
     {
         if (currentLevel.gameRulesType == GameRulesType.SimleTime)

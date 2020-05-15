@@ -9,6 +9,7 @@ public enum ShowWindowType
     Menu,
     Game,
     ChoiceLevel,
+    Settings,
     None
 }
 /// <summary>
@@ -19,8 +20,11 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject choiceLevelWindow;
     [SerializeField] private GameObject menuWindow;
     [SerializeField] private GameObject gameWindow;
+    [SerializeField] private GameObject settingsUiWindow;
     [SerializeField] private GameObject gameUiWindow;
-    [SerializeField] private GameObject GameBoard;
+    [SerializeField] private BoardManager GameBoard;
+    public MusicManager MusicManager;
+    private bool isGame = false;
     private int topScore;
     private CardPackManager _cardPackManager;
     public static GameManager instance = null;
@@ -55,6 +59,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void StartGame()
     {
+        isGame = true;
         showWindow(ShowWindowType.ChoiceLevel);
     }
     /// <summary>
@@ -63,6 +68,7 @@ public class GameManager : MonoBehaviour
     /// <param name="current_score"> score for currently game</param>
     public void EndGame(LevelModel model, int current_score)
     {
+        isGame = false;
         if (current_score > model.GetTopPerLevel())
             model.SaveTopPerLevel(current_score);
         showWindow(ShowWindowType.Menu);
@@ -77,14 +83,25 @@ public class GameManager : MonoBehaviour
 
     public void SelectLevel(LevelModel level)
     {
-        GameBoard.GetComponent<BoardManager>().currentLevel = level;
+        GameBoard.currentLevel = level;
         showWindow(ShowWindowType.Game);
+    }
+
+    public void CloseSettings()
+    {
+        showWindow(ShowWindowType.Menu);
+    }
+
+    public void OpenSettings()
+    {
+        showWindow(ShowWindowType.Settings);
     }
     /// <summary>
     /// First initialization of game manager 
     /// </summary>
     private void InitializeManager()
     {
+        settingsUiWindow.GetComponent<Settings>().StartValueMusic();
         showWindow(ShowWindowType.Menu);
     }
     /// <summary>
@@ -93,6 +110,7 @@ public class GameManager : MonoBehaviour
     /// <param name="type"></param>
     private void showWindow(ShowWindowType type)
     {
+        Debug.Log("type " + type);
         int newScore = -1;
         switch (showWindowType)
         {
@@ -106,6 +124,9 @@ public class GameManager : MonoBehaviour
             case ShowWindowType.ChoiceLevel:
                 choiceLevelWindow.SetActive(false);
                 break;
+            case ShowWindowType.Settings:
+                settingsUiWindow.SetActive(false);
+                break;
         }
         switch (type)
         {
@@ -115,11 +136,17 @@ public class GameManager : MonoBehaviour
             case ShowWindowType.Game:
                 gameWindow.SetActive(true);
                 gameUiWindow.SetActive(true);
-                GameBoard.GetComponent<BoardManager>().StartNewGame();
+                GameBoard.StartNewGame();
+                MusicManager.TransitionToGame();
                 break;
             case ShowWindowType.Menu:
+                MusicManager.TransitionToMenu();
                 menuWindow.SetActive(true);
                 break;
+            case ShowWindowType.Settings:
+                settingsUiWindow.SetActive(true);
+                break;
+
         }
         showWindowType = type;
     }
