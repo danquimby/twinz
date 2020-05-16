@@ -4286,11 +4286,11 @@ MonoBehaviour:
   ScoreText: {fileID: 119702262}
   model:
     tag: Level1
-    timeLeft: 20
+    timeLeft: 100
     gameRulesType: 0
     TopScore: 0
     decreaseTimeLeft: 0
-    minimumTimeLeft: 20
+    minimumTimeLeft: 30
     addTimeLeft: 0
   _audioSelect: {fileID: 1871954865}
 --- !u!1 &807190347
@@ -5446,10 +5446,10 @@ RectTransform:
   m_Father: {fileID: 1800264732}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0.26900002}
-  m_AnchorMax: {x: 1, y: 0.60678124}
-  m_AnchoredPosition: {x: -0.0018310547, y: 8.700012}
-  m_SizeDelta: {x: 0.3, y: 4.0999985}
+  m_AnchorMin: {x: 0, y: 0.40212503}
+  m_AnchorMax: {x: 1, y: 0.74100006}
+  m_AnchoredPosition: {x: -0.0018310547, y: 1.5}
+  m_SizeDelta: {x: 0.3, y: 3.100006}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1038807750
 MonoBehaviour:
@@ -5609,6 +5609,7 @@ MonoBehaviour:
     type: 3}
   GameOverPanel: {fileID: 371595367}
   YouWinPanel: {fileID: 1394498367}
+  isPause: 0
   currentLevel:
     tag: 
     timeLeft: 0
@@ -14470,7 +14471,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0, y: 2}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1800264733
